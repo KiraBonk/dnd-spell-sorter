@@ -1,12 +1,11 @@
-import "./SpellItem.css";
+import classes from "./SpellItem.css";
 
 const SpellItem = (props) => {
   return (
     <li>
       <div>
-        <h3 class="spell">{props.name}</h3>
-        <div class="level">Level - {props.level}</div>
-        <p>{props.description}</p>
+        <h3 className={classes.name}>{props.name}</h3>
+        {/* <div className={classes.level}>Level - {props.level}</div> */}
       </div>
     </li>
   );
