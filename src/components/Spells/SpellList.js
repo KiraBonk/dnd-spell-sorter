@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 
 import SpellItem from "./SpellItem";
 import classes from "./SpellList.css";
@@ -11,14 +12,28 @@ const SpellList = (props) => {
   const fetchSpellsHandler = useCallback(async () => {
     setError(null);
     try {
-      const arrayOfSpells = await fetch("https://www.dnd5eapi.co/api/spells");
-      if (!arrayOfSpells.ok) {
-        throw new Error("Something went wrong!");
-      }
+      const arrayOfSpells = await axios.get(
+        "https://www.dnd5eapi.co/api/spells"
+      );
 
-      const data = await arrayOfSpells.json();
+      const arrayOfPromises = await Promise.allSettled(
+        arrayOfSpells.data.results.map((spellData) => {
+          return axios.get(`https://dnd5eapi.co${spellData.url}`, {
+            headers: {
+                'Origin': '*'
+            }
+        });
+        })
+      );
 
-      const transformedSpells = data.results.map((spellData) => {
+      console.log(arrayOfPromises);
+    //   const data2 = arrayOfPromises.map(async (foo) => {
+    //     return await foo.value.json();
+    //   });
+
+      //console.log(data2);
+
+      const transformedSpells = arrayOfSpells.data.map((spellData) => {
         return (
           <SpellItem
             key={spellData.index}
