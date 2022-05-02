@@ -1,3 +1,10 @@
 .test {
-  margin-top: 200px;
+  margin-top: 178px;
+  width: 100%;
+  padding-top: 1px;
+}
+
+.style {
+  width: 100%;
+  margin-top: 178px;
 }

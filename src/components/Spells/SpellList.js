@@ -69,8 +69,7 @@ const SpellList = (props) => {
                 return <SpellItem key={index} name={name} level={level} />;
               } else if (spellLevel === level) {
                 return <SpellItem key={index} name={name} level={level} />;
-              } 
-              
+              }
             })}
           </ul>
         </Card>
