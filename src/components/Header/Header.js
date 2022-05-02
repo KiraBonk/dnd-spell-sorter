@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import classes from "./Header.css";
+import classes from "./Header.module.css";
 
 const Header = () => {
   return (

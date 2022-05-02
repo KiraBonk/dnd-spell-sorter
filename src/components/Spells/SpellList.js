@@ -1,15 +1,36 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import Select from "react-select";
 
 import SpellItem from "./SpellItem";
-import classes from "./SpellList.css";
+import classes from "./SpellList.module.css";
 import Card from "../UI/Card";
+
+const options = [
+  { value: -1, label: "All" },
+  { value: 0, label: "Cantrip" },
+  { value: 1, label: "1" },
+  { value: 2, label: "2" },
+  { value: 3, label: "3" },
+  { value: 4, label: "4" },
+  { value: 5, label: "5" },
+  { value: 6, label: "6" },
+  { value: 7, label: "7" },
+  { value: 8, label: "8" },
+  { value: 9, label: "9" },
+];
 
 const SpellList = (props) => {
   const [spells, setSpells] = useState([]);
   const [error, setError] = useState(null);
+  const [spellLevel, setSpellLevel] = useState(-1);
 
-  const fetchSpellsHandler = useCallback(async () => {
+  const changeHandler = (selectedLevel) => {
+    setSpellLevel(selectedLevel.value);
+    // console.log(selectedLevel.value)
+  };
+
+  const fetchSpellsHandler = async () => {
     setError(null);
     try {
       const arrayOfSpells = await axios.get(
@@ -18,59 +39,40 @@ const SpellList = (props) => {
 
       const arrayOfPromises = await Promise.allSettled(
         arrayOfSpells.data.results.map((spellData) => {
-          return axios.get(`https://dnd5eapi.co${spellData.url}`, {
-            headers: {
-                'Origin': '*'
-            }
-        });
+          return axios.get(`https://www.dnd5eapi.co${spellData.url}`);
         })
       );
 
-      console.log(arrayOfPromises);
-    //   const data2 = arrayOfPromises.map(async (foo) => {
-    //     return await foo.value.json();
-    //   });
-
-      //console.log(data2);
-
-      const transformedSpells = arrayOfSpells.data.map((spellData) => {
-        return (
-          <SpellItem
-            key={spellData.index}
-            name={spellData.name}
-            // url={spellData.url}
-          />
-        );
-      });
-
-      setSpells(transformedSpells);
+      setSpells(
+        arrayOfPromises.map((spellData) => {
+          return spellData.value.data;
+        })
+      );
     } catch (error) {
       setError(error.message);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchSpellsHandler();
-  }, [fetchSpellsHandler]);
+  }, []);
 
   return (
     <div>
-      <select>
-        <option value="all">All</option>
-        <option value="cantrip">Cantrip</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-      </select>
       <section className={classes.spells}>
+        <Select options={options} onChange={changeHandler} />
         <Card>
-          <ul>{spells}</ul>
+          <ul>
+            {spells.map((spellData) => {
+              const { level, index, name } = spellData;
+              if (spellLevel === -1) {
+                return <SpellItem key={index} name={name} level={level} />;
+              } else if (spellLevel === level) {
+                return <SpellItem key={index} name={name} level={level} />;
+              } 
+              
+            })}
+          </ul>
         </Card>
         {error}
       </section>
