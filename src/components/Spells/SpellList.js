@@ -6,7 +6,13 @@ const SpellList = (props) => {
     <div className={classes.spells}>
       <ul>
         {props.spells.map((spell) => (
-          <SpellItem key={spell.index} name={spell.name} level={spell.level} />
+          <SpellItem
+            key={spell.index}
+            name={spell.name}
+            level={spell.level}
+            description={spell.desc}
+            higherlvldesc={spell.higher_level}
+          />
         ))}
       </ul>
     </div>

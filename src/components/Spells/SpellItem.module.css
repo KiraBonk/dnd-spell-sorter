@@ -1,15 +1,16 @@
 .spell {
-    display: flex;
-    justify-content: space-between;
-    margin: 1rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #ccc;
-  }
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
 
-  .spell h3 {
-    margin: 0 0 0.25rem 0;
-  }
-  
-  .spell p {
-    font-style: italic;
-  }
+.spell h3 {
+  margin: 0 0 0.25rem 0;
+}
+
+.spell h4 {
+  font-style: italic;
+}
+

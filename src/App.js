@@ -6,7 +6,7 @@ import Select from "react-select";
 import classes from "./App.module.css";
 import Header from "./components/Header/Header";
 import SpellList from "./components/Spells/SpellList";
-import Card from "./components/UI/Card";
+import Card2 from "./components/UI/Card2";
 
 const options = [
   { value: -1, label: "All" },
@@ -27,6 +27,13 @@ const App = () => {
   const [error, setError] = useState(null);
   const [spellLevel, setSpellLevel] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
+
+  const customStyles = {
+    control: (base) => ({
+      ...base,
+      width: "111px",
+    }),
+  };
 
   const changeHandler = (selectedLevel) => {
     setSpellLevel(selectedLevel.value);
@@ -49,7 +56,6 @@ const App = () => {
       setSpells(
         arrayOfPromises.map((spellData) => {
           return spellData.value.data;
-          
         })
       );
     } catch (error) {
@@ -61,8 +67,6 @@ const App = () => {
   useEffect(() => {
     fetchSpellsHandler();
   }, []);
-
-  
 
   return (
     <div
@@ -78,12 +82,28 @@ const App = () => {
       <Fragment>
         <Header />
         <main className={classes.test}>
-          <section className={classes.spells}>
-            <Select options={options} onChange={changeHandler} />
-            <Card>
-              {!isLoading && <SpellList props={spells} />}
-              {isLoading && <p>Loading...</p>}
-            </Card>
+          <section>
+            <div className={classes.filter}>
+              <Card2>
+                <label for="level">Sort by Level</label>
+                <Select
+                  options={options}
+                  onChange={changeHandler}
+                  styles={customStyles}
+                  name="level"
+                />
+              </Card2>
+            </div>
+            {isLoading ? (
+              <p className={classes.loader}></p>
+            ) : (
+              <SpellList
+                spells={spells.filter((spell) => {
+                  if (spellLevel === -1) return true;
+                  return spell.level === spellLevel;
+                })}
+              />
+            )}
             {error}
           </section>
         </main>

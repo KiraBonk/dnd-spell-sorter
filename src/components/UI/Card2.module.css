@@ -3,8 +3,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   border-radius: 14px;
   background-color: white;
-  margin-bottom: 30px;
+  width: 200px;
   border-style: inset;
-  border-color: #D1B000;
+  border-color: #d1b000;
   border-width: 5px;
 }

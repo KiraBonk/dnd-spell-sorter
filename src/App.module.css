@@ -1,10 +1,38 @@
 .test {
-  margin-top: 178px;
+  margin-top: 187px;
   width: 100%;
   padding-top: 1px;
+}
+
+.filter {
+  max-width: 60rem;
+  width: 100%;
+  margin: 1rem auto;
 }
 
 .style {
   width: 100%;
   margin-top: 178px;
+}
+
+.loader {
+  position: fixed;
+  left: 50%;
+  width: 48px;
+  height: 48px;
+  border: 5px solid white;
+  border-bottom-color: #a50e0e;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
